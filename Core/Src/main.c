@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "core.h"
 
 /* USER CODE END Includes */
 
@@ -85,6 +86,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+  user_main();
+  /* It will never reach the while */
 
   /* USER CODE END 2 */
 
