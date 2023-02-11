@@ -63,3 +63,6 @@ ctrlp.root
 
 #html
 *.html
+
+#build files
+build
