@@ -11,6 +11,7 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 
 int user_main(void)
 {
+        report.id = 1;
         HAL_Delay (3000);
         while (true) {
                 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
