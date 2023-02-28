@@ -20,6 +20,7 @@
 #define FN_KEY_SCAN_PORT        GPIO_PIN_10
 
 typedef struct key_report {
+        uint8_t id;
         uint8_t modifier;
         uint8_t reserved;
         uint8_t keycodes[MAX_PRESSED_IN_REPORT];
