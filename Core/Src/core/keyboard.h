@@ -23,7 +23,7 @@ typedef struct key_report {
         uint8_t id;
         uint8_t modifier;
         uint8_t reserved;
-        uint8_t keycodes[MAX_PRESSED_IN_REPORT];
+        uint8_t keys[MAX_PRESSED_IN_REPORT];
 } key_report_st_t;
 
 typedef enum key_state {

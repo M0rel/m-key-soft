@@ -208,7 +208,7 @@ void is_pressed_in_buffer(uint8_t *pressed_keys, uint8_t *pressed_cnt,
 
         for (i = 0; i < MAX_PRESSED_IN_REPORT; i++) {
                 for (j = 0; j < *pressed_cnt; j++) {
-                        if (pressed_keys[j]== report->keycodes[i]) {
+                        if (pressed_keys[j]== report->keys[i]) {
                                 pressed_keys[j] = NO_KEY;
 
                                 key_not_found = false;
@@ -219,7 +219,7 @@ void is_pressed_in_buffer(uint8_t *pressed_keys, uint8_t *pressed_cnt,
                 }
 
                 if (true == key_not_found) {
-                        report->keycodes[i] = NO_KEY;
+                        report->keys[i] = NO_KEY;
                 }
 
                 key_not_found = true;
@@ -256,7 +256,7 @@ void prepare_send_buffer(uint8_t *pressed_keys, uint8_t *pressed_cnt,
 
         is_pressed_in_buffer(pressed_keys, pressed_cnt, report);
 
-        fill_buffer(pressed_keys, *pressed_cnt, report->keycodes);
+        fill_buffer(pressed_keys, *pressed_cnt, report->keys);
 }
 
 void key_input_to_usb_report(key_report_st_t *report)
