@@ -200,13 +200,13 @@ uint8_t set_modifier_keys(uint8_t *pressed_keys, uint8_t *pressed_cnt)
 
 static
 void is_pressed_in_buffer(uint8_t *pressed_keys, uint8_t *pressed_cnt,
-        key_report_st_t *report, uint8_t report_cnt)
+        key_report_st_t *report)
 {
         bool key_not_found = true;
         int i = 0;
         int j = 0;
 
-        for (i = 0; i < report_cnt; i++) {
+        for (i = 0; i < MAX_PRESSED_IN_REPORT; i++) {
                 for (j = 0; j < *pressed_cnt; j++) {
                         if (pressed_keys[j]== report->keycodes[i]) {
                                 pressed_keys[j] = NO_KEY;
@@ -230,14 +230,14 @@ void is_pressed_in_buffer(uint8_t *pressed_keys, uint8_t *pressed_cnt,
 
 static
 void fill_buffer(uint8_t *pressed_keys, uint8_t pressed_cnt,
-        uint8_t *report, uint8_t report_size)
+        uint8_t *report)
 {
         volatile int start_idx = 0;
         volatile int key_idx = 0;
 
         start_idx = normalize_buffer(report, MAX_PRESSED_IN_REPORT);
 
-        for (; start_idx < report_size; start_idx++) {
+        for (; start_idx < MAX_PRESSED_IN_REPORT; start_idx++) {
                 if (NO_KEY == pressed_keys[key_idx]) {
                         /* Buffer is empty. Nothing to write */
                         break;
@@ -250,14 +250,13 @@ void fill_buffer(uint8_t *pressed_keys, uint8_t pressed_cnt,
 
 static
 void prepare_send_buffer(uint8_t *pressed_keys, uint8_t *pressed_cnt,
-        key_report_st_t *report, uint8_t report_cnt)
+        key_report_st_t *report)
 {
         report->modifier = set_modifier_keys(pressed_keys, pressed_cnt);
 
-        is_pressed_in_buffer(pressed_keys, pressed_cnt, report, report_cnt);
+        is_pressed_in_buffer(pressed_keys, pressed_cnt, report);
 
-        fill_buffer(pressed_keys, *pressed_cnt, report->keycodes,
-                    MAX_PRESSED_IN_REPORT);
+        fill_buffer(pressed_keys, *pressed_cnt, report->keycodes);
 }
 
 void key_input_to_usb_report(key_report_st_t *report)
@@ -267,7 +266,6 @@ void key_input_to_usb_report(key_report_st_t *report)
 
         pressed_cnt = poll_keys_matrix(pressed_keys, MAX_PRESSED_CNT);
 
-        prepare_send_buffer(pressed_keys, &pressed_cnt, report,
-                            MAX_PRESSED_IN_REPORT);
+        prepare_send_buffer(pressed_keys, &pressed_cnt, report);
 }
 
